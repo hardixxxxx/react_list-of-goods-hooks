@@ -27,10 +27,7 @@ interface SortOptions {
   isReversed: boolean;
 }
 
-function getPreparedGoods(
-  goods: string[],
-  { sortField, isReversed }: SortOptions,
-) {
+function sortGoods(goods: string[], { sortField, isReversed }: SortOptions) {
   const preparedGoods = [...goods];
 
   if (sortField !== SortField.None) {
@@ -58,7 +55,7 @@ function getPreparedGoods(
 export const App: React.FC = () => {
   const [sortField, setSortField] = useState(SortField.None);
   const [isReversed, setIsReversed] = useState(false);
-  const goods = getPreparedGoods(goodsFromServer, { sortField, isReversed });
+  const goods = sortGoods(goodsFromServer, { sortField, isReversed });
 
   return (
     <div className="section content">
@@ -108,13 +105,11 @@ export const App: React.FC = () => {
       </div>
 
       <ul>
-        <ul>
-          {goods.map(good => (
-            <li key={good} data-cy="Good">
-              {good}
-            </li>
-          ))}
-        </ul>
+        {goods.map(good => (
+          <li key={good} data-cy="Good">
+            {good}
+          </li>
+        ))}
       </ul>
     </div>
   );
